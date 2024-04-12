@@ -1,6 +1,6 @@
 module Main(main) where
 
-import Quantum.Basis
+import Quantum.PA
 
 main :: IO ()
-main = f
+main = print $ squareModulus (3.0 :+ 4.0)
