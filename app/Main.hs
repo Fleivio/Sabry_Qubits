@@ -1,6 +1,7 @@
 module Main(main) where
 
-import Quantum.PA
+import Quantum.Value
 
 main :: IO ()
-main = print $ squareModulus (3.0 :+ 4.0)
+main = let qv = mkQV [(False, 0), (True, 1)]
+        in putStrLn $ showQV qv
