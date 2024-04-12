@@ -6,3 +6,5 @@ class Eq a => Basis a where
 instance Basis Bool where
     basis = [False, True]
 
+instance (Basis a, Basis b) => Basis (a, b) where
+    basis = [(x, y) | x <- basis, y <- basis]
