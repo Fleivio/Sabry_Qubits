@@ -55,6 +55,23 @@ cnot = mkCQop id xGate
 toffoli :: Qop ((Bool, Bool), Bool) ((Bool, Bool), Bool)
 toffoli = mkCQop (uncurry (&&)) xGate
 
+toffoli' :: Basis a => Basis u => Virt ((Bool, Bool), Bool) a u -> IO()
+toffoli' vtriple = 
+    let b = virtFromV vtriple ad_triple3
+        mb = virtFromV vtriple ad_triple23
+        tm = virtFromV vtriple ad_triple12
+        tb = virtFromV vtriple ad_triple13
+        cv = mkCQop id vGate
+        cvt = mkCQop id vtGate
+    in do
+        app1 hGate b
+        app1 cv mb
+        app1 cnot tm
+        app1 cvt mb
+        app1 cnot tm
+        app1 cv tb
+        app1 hGate b
+
 adder :: QV Bool -> QV Bool -> QV Bool -> IO (QV Bool, QV Bool)
 adder x y inc_c =
     let out_c = ket0
@@ -67,7 +84,7 @@ adder x y inc_c =
             vyio = virtFromV v ad_quad234
             vyi  = virtFromV v ad_quad23
             vio  = virtFromV v ad_quad34
-        app1 toffoli vxyo
+        toffoli' vxyo -- alternative equivalent to app1 toffoli
         app1 cnot vxy
         app1 toffoli vyio
         app1 cnot vyi
