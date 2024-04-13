@@ -1,5 +1,7 @@
 {-#LANGUAGE LambdaCase #-}
-module Quantum.Value(QV, getProb, (&*), mkQV, showQV) where
+module Quantum.Value(
+    QV, getProb, (&*), mkQV, showQV, norm, normalize,
+    module Quantum.PA, module Quantum.Basis) where
 
 import Quantum.PA
 import Quantum.Basis
@@ -26,4 +28,13 @@ showQV qv = intercalate " + " $ do
     return 
         $ case pa of 
             0 -> mempty
-            _ -> showPAMultiplicative pa ++ "|" ++ show a ++ "⟩" 
+            _ -> showPAMultiplicative pa ++ "|" ++ show a ++ "⟩"
+
+norm :: QV a -> Double
+norm v = sqrt . sum $ probs
+    where probs = (squareModulus . snd) <$> toList v
+
+normalize :: QV a -> QV a
+normalize qval = (c*) `Map.map` qval
+    where
+        c = 1 / norm qval :+ 0

@@ -16,22 +16,21 @@ executable QbitsHaskell
 
     main-is:          Main.hs
 
-    -- Modules included in this executable, other than Main.
     other-modules: 
         Quantum.Basis
         , Quantum.PA
         , Quantum.Value
+        , Quantum.Operators
+        , Reference.Observation
+        , Reference.Reference
 
-    -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
-    -- Other library packages from which modules are imported.
     build-depends:    
         base ^>=4.17.2.1
-        , containers 
+        , containers
+        , random
 
-    -- Directories containing source files.
     hs-source-dirs:   app, src
 
-    -- Base language which the package is written in.
     default-language: Haskell2010

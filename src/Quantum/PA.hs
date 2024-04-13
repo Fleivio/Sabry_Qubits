@@ -1,4 +1,4 @@
-module Quantum.PA (PA, showPA, showPAMultiplicative, squareModulus, addPA, module Data.Complex) where
+module Quantum.PA (PA, showPA, showPAMultiplicative, squareModulus, module Data.Complex) where
 
 import Data.Complex ( imagPart, magnitude, realPart, Complex(..) ) 
 import Text.Printf
@@ -12,12 +12,11 @@ showPA pa
     | otherwise        = printf "%.1f" (realPart pa)
 
 showPAMultiplicative :: PA -> String
-showPAMultiplicative 1 = ""
-showPAMultiplicative (-1) = "-"
-showPAMultiplicative a = showPA a
+showPAMultiplicative pa = 
+    case pa of
+        1    -> mempty
+        (-1) -> "-"
+        a    ->  showPA a
 
 squareModulus :: PA -> Double
 squareModulus = (**2) . magnitude
-
-addPA :: a -> a -> Complex a
-addPA = (:+)
