@@ -8,3 +8,6 @@ instance Basis Bool where
 
 instance (Basis a, Basis b) => Basis (a, b) where
     basis = [(x, y) | x <- basis, y <- basis]
+
+instance Basis () where
+    basis = [()]

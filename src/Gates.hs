@@ -1,6 +1,16 @@
-module Gates() where
+module Gates(module Virtual.Value, ket1, ket0, adder) where
 
 import Virtual.Value
+import Virtual.Adaptor
+
+boolToQV :: Bool -> QV Bool
+boolToQV b = mkQV [(b, 1)]
+
+ket1 :: QV Bool
+ket1 = mkQV [(True, 1)]
+
+ket0 :: QV Bool
+ket0 = mkQV [(False, 1)]
 
 xGate :: Qop Bool Bool
 xGate = mkQop 
@@ -46,23 +56,21 @@ toffoli :: Qop ((Bool, Bool), Bool) ((Bool, Bool), Bool)
 toffoli = mkCQop (uncurry (&&)) xGate
 
 adder :: QV Bool -> QV Bool -> QV Bool -> IO (QV Bool, QV Bool)
-adder inc x y =
-    let outc = bra_0_ket
-        vals = x &* y &* inc &* outc
+adder x y inc_c =
+    let out_c = ket0
+        vals = x &* y &* inc_c &* out_c
     in do 
         r <- mkQR vals
         let v = virtFromR r
             vxyo = virtFromV v ad_quad124
-            vxy = virtFromV v ad_quad12
+            vxy  = virtFromV v ad_quad12
             vyio = virtFromV v ad_quad234
-            vyi = virtFromV v ad_quad23
-            vio = virtFromV v ad_quad34
+            vyi  = virtFromV v ad_quad23
+            vio  = virtFromV v ad_quad34
         app1 toffoli vxyo
         app1 cnot vxy
         app1 toffoli vyio
         app1 cnot vyi
         app1 cnot vxy
         (sumR, carryOut) <- observeVV vio
-        putStrLn $ qvToString x ++ " +. " ++ qvToString y ++ " +. " ++ qvToString inc
-        putStrLn $ "Sum = " ++ show sumR ++ "\nCarry = " ++ show carryOut
-        return (boolToQv carryOut, boolToQv sumR)
+        return (boolToQV sumR, boolToQV carryOut)

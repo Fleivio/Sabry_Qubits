@@ -23,6 +23,7 @@ executable QbitsHaskell
         , Quantum.Operators
         , Reference.Observation
         , Reference.Reference
+        , Gates
 
     -- other-extensions:
 

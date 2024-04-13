@@ -3,7 +3,7 @@ module Quantum.Operators (mkQop, appQop, mkCQop, Qop(..), module Quantum.Value) 
 import Quantum.Value
 import Data.Map
 
-data Qop a b = Qop (Map (a, b) PA)
+newtype Qop a b = Qop (Map (a, b) PA)
 
 mkQop :: (Basis a, Basis b) => [((a,b), PA)] -> Qop a b
 mkQop = Qop . fromList

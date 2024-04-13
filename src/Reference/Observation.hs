@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
-module Reference.Observation (observeV, observeR, observeLeftR, observeRightR) where
+module Reference.Observation (observeV, observeR, observeLeftR, observeRightR,
+    module Reference.Reference) where
 
 import Reference.Reference
 
@@ -10,7 +11,7 @@ import System.Random (getStdRandom, Random(randomR))
 observeV :: Basis a => QV a -> IO a
 observeV v = do
     let nv = normalize v
-        probs = (squareModulus . getProb nv) <$> basis
+        probs = squareModulus . getProb nv <$> basis
     r <- getStdRandom $ randomR (0.0, 1.0)
     let accumulatedProbs = zip (scanl1 (+) probs) basis
         -- never yields Nothing due to normalization
@@ -26,7 +27,7 @@ observeR (QR ptr) = do
     return observResult
 
 observeLeftR :: (Basis a, Basis b) => QR (a, b) -> IO a
-observeLeftR (QR ptr) = do 
+observeLeftR (QR ptr) = do
     qVal <- readIORef ptr
     let leftProb a = sqrt . sum $ [ squareModulus (getProb qVal (a,b)) :+ 0 | b <- basis]
         leftQval = mkQV [(a, leftProb a) | a <- basis]
@@ -36,7 +37,7 @@ observeLeftR (QR ptr) = do
     return observResult
 
 observeRightR :: (Basis a, Basis b) => QR (a, b) -> IO b
-observeRightR (QR ptr) = do 
+observeRightR (QR ptr) = do
     qVal <- readIORef ptr
     let rightProb a = sqrt . sum $ [ squareModulus (getProb qVal (b,a)) :+ 0 | b <- basis]
         rightQval = mkQV [(a, rightProb a) | a <- basis]

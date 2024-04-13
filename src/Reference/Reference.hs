@@ -5,7 +5,7 @@ module Reference.Reference (
 import Quantum.Operators
 import Data.IORef
 
-data QR a = QR (IORef (QV a))
+newtype QR a = QR (IORef (QV a))
 
 mkQR :: QV a -> IO (QR a)
 mkQR qv = QR <$> newIORef qv

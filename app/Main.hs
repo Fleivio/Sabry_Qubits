@@ -1,7 +1,9 @@
 module Main(main) where
 
-import Quantum.Operators
+import Gates
 
 main :: IO ()
-main = let qv = mkQV [(False, 0), (True, -1)]
-        in putStrLn $ showQV qv
+main = do
+        (a, b) <- adder ket1 ket1 ket0
+        putStrLn $ "Sum = " <> showQV a
+        putStrLn $ "Carry = " <> showQV b

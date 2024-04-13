@@ -30,10 +30,10 @@ app (Qop f)
     (Virt (QR rb) (Adaptor {dec = decb, cmp = _})) =
     do 
         fa <- readIORef ra
-        let fb = normalize $ qApp gf fa
+        let fb = normalize $ appQop gf fa
         writeIORef rb fb
 
-    where gf = qop [ ( (ua, ub), getProb f (a, b) ) | (ua, ub) <- basis,
+    where gf = mkQop [ ( (ua, ub), getProb f (a, b) ) | (ua, ub) <- basis,
                     let (a, na) = deca ua
                         (b, nb) = decb ub,
                     na == nb ]
@@ -45,8 +45,8 @@ observeVV :: (Basis a, Basis na, Basis ua) => Virt a na ua -> IO a
 observeVV (Virt (QR r) (Adaptor {dec = dec1, cmp = cmp1})) = do 
     qVal <- readIORef r
     let virtualProb a = sqrt. sum $ [squareModulus (getProb qVal (cmp1(a, na))) :+ 0 | na <- basis]
-        virtualQVal = toQv [ (a, virtualProb a) | a <- basis]
+        virtualQVal = mkQV [ (a, virtualProb a) | a <- basis]
     observResult <- observeV virtualQVal
-    let nv = toQv [ (u, getProb qVal (cmp1 (observResult, na))) | u <- basis, let (a, na) = dec1 u, a == observResult ]
+    let nv = mkQV [ (u, getProb qVal (cmp1 (observResult, na))) | u <- basis, let (a, na) = dec1 u, a == observResult ]
     writeIORef r $ normalize nv
     return observResult
