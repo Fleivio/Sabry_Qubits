@@ -1,4 +1,4 @@
-module Gates(module Virtual.Value, ket1, ket0, adder) where
+module Gates(module Virtual.Value, ket1, ket0, ketMinus, ketPlus, adder, hGate, idGate) where
 
 import Virtual.Value
 import Virtual.Adaptor
@@ -11,6 +11,12 @@ ket1 = mkQV [(True, 1)]
 
 ket0 :: QV Bool
 ket0 = mkQV [(False, 1)]
+
+ketMinus :: QV Bool 
+ketMinus = normalize $ mkQV [(True, 1), (False, -1)]
+
+ketPlus :: QV Bool
+ketPlus = normalize $ mkQV [(True, 1), (False, 1)]
 
 xGate :: Qop Bool Bool
 xGate = mkQop 
