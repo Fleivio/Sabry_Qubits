@@ -1,5 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
-module Algorithms.BB84(bb84) where
+module Algorithms.BB84(_ex) where
 
 import Gates
 
@@ -122,8 +122,9 @@ getKey (EndPoint aliceBasis aliceBits, EndPoint bobBasis bobBits) =
         then Left aliceMatches
         else Right matchesMask
 
-bb84 :: Int -> IO ()
-bb84 size = do
+_ex :: IO ()
+_ex = do
+    let size = 10
     (alice, trudy, bob) <- bb84run size
     print alice
     print trudy

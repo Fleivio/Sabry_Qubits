@@ -28,6 +28,7 @@ executable QbitsHaskell
         , Gates
         , Algorithms.BB84
         , Algorithms.Adder
+        , Algorithms.Deutsch
 
     -- other-extensions:
 

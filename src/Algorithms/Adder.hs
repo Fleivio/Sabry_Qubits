@@ -1,4 +1,4 @@
-module Algorithms.Adder(adder) where
+module Algorithms.Adder(_ex) where
 
 import Virtual.Adaptor
 import Virtual.Value
@@ -15,3 +15,10 @@ adder v = do
   app1 toffoli vyio
   app1 cnot vyi
   app1 cnot vxy
+
+_ex :: IO ()
+_ex = do
+  v <- virtFromList [((((True, True), True), False), 1)]
+  adder v
+  (((a, b), c), d) <- observeVV v
+  putStrLn $ show a ++ " " ++ show b ++ " " ++ show c ++ " " ++ show d
