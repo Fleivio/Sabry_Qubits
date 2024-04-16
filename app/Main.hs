@@ -1,6 +1,12 @@
-module Main(main) where
+module Main
+  ( main
+  ) where
 
-import Algorithms.BB84.BB84
+import Gates
 
 main :: IO ()
-main = bb84 10
+main = do
+  v <- virtFromList [((((True, True), True), False), 1)]
+  adder v
+  (((a, b), c), d) <- observeVV v
+  putStrLn $ show a ++ " " ++ show b ++ " " ++ show c ++ " " ++ show d
