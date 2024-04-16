@@ -3,6 +3,7 @@ module Main
   ) where
 
 import Gates
+import Algorithms.Adder
 
 main :: IO ()
 main = do

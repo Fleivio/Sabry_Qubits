@@ -4,13 +4,15 @@ module Gates
   , ket0
   , ketMinus
   , ketPlus
-  , adder
-  , hGate
+  , h
   , idGate
-  , yGate
-  , zGate
+  , y
+  , z
   , vGate
   , vtGate
+  , x
+  , cnot
+  , toffoli
   ) where
 
 import Virtual.Adaptor
@@ -28,17 +30,17 @@ ketMinus = normalize $ mkQV [(True, 1), (False, -1)]
 ketPlus :: QV Bool
 ketPlus = normalize $ mkQV [(True, 1), (False, 1)]
 
-xGate :: Qop Bool Bool
-xGate = mkQop [((False, True), 1), ((True, False), 1)]
+x :: Qop Bool Bool
+x = mkQop [((False, True), 1), ((True, False), 1)]
 
-yGate :: Qop Bool Bool
-yGate = mkQop [((False, True), 0 :+ (-1)), ((True, False), 0 :+ 1)]
+y :: Qop Bool Bool
+y = mkQop [((False, True), 0 :+ (-1)), ((True, False), 0 :+ 1)]
 
-zGate :: Qop Bool Bool
-zGate = mkQop [((False, False), 1), ((True, True), -1)]
+z :: Qop Bool Bool
+z = mkQop [((False, False), 1), ((True, True), -1)]
 
-hGate :: Qop Bool Bool
-hGate =
+h :: Qop Bool Bool
+h =
   mkQop
     [ ((False, False), 1)
     , ((False, True), 1)
@@ -56,20 +58,8 @@ idGate :: Qop Bool Bool
 idGate = mkQop [((True, True), 1), ((False, False), 1)]
 
 cnot :: Qop (Bool, Bool) (Bool, Bool)
-cnot = mkCQop id xGate
+cnot = mkCQop id x
 
 toffoli :: Qop ((Bool, Bool), Bool) ((Bool, Bool), Bool)
-toffoli = mkCQop (uncurry (&&)) xGate
+toffoli = mkCQop (uncurry (&&)) x
 
-adder ::
-     (Basis a) => (Basis u) => Virt (((Bool, Bool), Bool), Bool) a u -> IO ()
-adder v = do
-  let vxyo = virtFromV v ad_quad124
-      vxy = virtFromV v ad_quad12
-      vyio = virtFromV v ad_quad234
-      vyi = virtFromV v ad_quad23
-  app1 toffoli vxyo
-  app1 cnot vxy
-  app1 toffoli vyio
-  app1 cnot vyi
-  app1 cnot vxy

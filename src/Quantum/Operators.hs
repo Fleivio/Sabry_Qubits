@@ -17,8 +17,8 @@ mkQop = Qop . fromList
 
 mkCQop :: (Basis a, Basis b) => (a -> Bool) -> Qop b b -> Qop (a, b) (a, b)
 mkCQop enable (Qop qop) = mkQop $ unchangeCase ++ changeCase
-        -- enable = false
   where
+        -- enable = false
     unchangeCase = [(((a, b), (a, b)), 1) | (a, b) <- basis, not (enable a)]
         -- enable = true
     changeCase =
