@@ -2,8 +2,7 @@ module Main
   ( main
   ) where
 
-import Gates
-import Algorithms.Deutsch
+import Algorithms.Teleport
 
 main :: IO ()
 main = _ex

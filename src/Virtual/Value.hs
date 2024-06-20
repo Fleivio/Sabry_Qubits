@@ -8,10 +8,12 @@ module Virtual.Value
   , module Reference.Observation
   , module Virtual.Adaptor
   , virtFromList
+  , printVirt
   ) where
 
 import Data.IORef
 import Reference.Observation
+import Reference.Reference
 
 import Virtual.Adaptor (Adaptor(..))
 
@@ -23,6 +25,10 @@ virtFromR r = Virt r (Adaptor {dec = \a -> (a, ()), cmp = \(a, ()) -> a})
 
 virtFromList :: Basis a => [(a, PA)] -> IO (Virt a () a)
 virtFromList = fmap virtFromR . qrFromList
+
+printVirt :: (Basis a, Basis na, Basis ua) => (Show ua) => Virt a na ua -> IO ()
+printVirt (Virt qr _) = do 
+  printQR qr
 
 virtFromV :: Virt a na u -> Adaptor (a1, a2) a -> Virt a1 (a2, na) u
 virtFromV (Virt r gAdaptor) lAdaptor = Virt r composedAdaptor

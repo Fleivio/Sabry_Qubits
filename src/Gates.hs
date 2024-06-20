@@ -13,9 +13,9 @@ module Gates
   , x
   , cnot
   , toffoli
+  , cz
   ) where
 
-import Virtual.Adaptor
 import Virtual.Value
 
 ket1 :: QV Bool
@@ -63,3 +63,5 @@ cnot = mkCQop id x
 toffoli :: Qop ((Bool, Bool), Bool) ((Bool, Bool), Bool)
 toffoli = mkCQop (uncurry (&&)) x
 
+cz :: Qop (Bool, Bool) (Bool, Bool)
+cz = mkCQop id z

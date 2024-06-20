@@ -28,7 +28,7 @@ qmap1 &* qmap2 =
   mkQV [((x, y), getProb qmap1 x * getProb qmap2 y) | (x, y) <- basis]
 
 mkQV :: Basis a => [(a, PA)] -> QV a
-mkQV = Map.fromList . Prelude.filter ((/= 0) . snd)
+mkQV = normalize . Map.fromList . Prelude.filter ((/= 0) . snd)
 
 showQV :: Show a => QV a -> String
 showQV qv =
