@@ -25,7 +25,7 @@ ket0 :: QV Bool
 ket0 = mkQV [(False, 1)]
 
 ketMinus :: QV Bool
-ketMinus = normalize $ mkQV [(True, 1), (False, -1)]
+ketMinus = normalize $ mkQV [(True, -1), (False, 1)]
 
 ketPlus :: QV Bool
 ketPlus = normalize $ mkQV [(True, 1), (False, 1)]

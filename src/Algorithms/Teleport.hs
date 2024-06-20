@@ -12,23 +12,44 @@ entangle v = do
     app1 h vx
     app1 cnot v
 
-teleport :: (Basis a) => (Basis u) => Virt ((Bool, Bool), Bool) a u -> IO ()
+teleport :: (Basis a) => (Basis u) => (Show u) => Virt ((Bool, Bool), Bool) a u -> IO ()
 teleport v = do
-    let 
+    let
         v12 = virtFromV v ad_triple12
         v23 = virtFromV v ad_triple23
         v13 = virtFromV v ad_triple13
         v1  = virtFromV v ad_triple1
+    putStrLn "\nValor de entrada:"
+    printVirt v
+
     entangle v23
+    putStrLn "\nEmaranhamento 2-3"
+    printVirt v
+
     app1 cnot v12
+    putStrLn "\nCNOT 1-2"
+    printVirt v
+
     app1 h v1
-    observeVV v12
+    putStrLn "\nH 1"
+    printVirt v
+
+    _ <- observeVV v12
+    putStrLn "\nMedição 1-2"
+    printVirt v
+
     app1 cnot v23
+    putStrLn "\nCNOT 2-3"
+    printVirt v
+
     app1 cz v13
+    putStrLn "\nCZ 1-3"
+    printVirt v
 
 _ex :: IO()
 _ex = do
-  v <- virtFromList [(((True, False), False), 1), (((False, False), False), -1)]
+  v <- virtFromR <$> mkQR (ketMinus &* ket0 &* ket0)
+
   teleport v
   printVirt v
 
