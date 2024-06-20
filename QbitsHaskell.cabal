@@ -29,11 +29,12 @@ executable QbitsHaskell
         , Algorithms.BB84
         , Algorithms.Adder
         , Algorithms.Deutsch
+        , Algorithms.Teleport
 
     -- other-extensions:
 
     build-depends:    
-        base ^>=4.17.2.1
+        base ^>=4.19.1.0
         , containers
         , random
 
