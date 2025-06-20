@@ -24,6 +24,8 @@ executable QbitsHaskell
         , Virtual.Adaptor
         , Gates
         , Algorithms.Teleport
+        , Algorithms.Adder
+        , Algorithms.Deutsch
 
     -- other-extensions:
 

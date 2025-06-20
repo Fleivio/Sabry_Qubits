@@ -1,6 +1,5 @@
 module Algorithms.Teleport
-  ( _ex
-  ) where
+  (teleport) where
 
 import Virtual.Adaptor
 import Virtual.Value
@@ -46,11 +45,5 @@ teleport v = do
     putStrLn "\nCZ 1-3"
     printVirt v
 
-_ex :: IO()
-_ex = do
-  v <- virtFromR <$> mkQR (ketMinus &* ket0 &* ket0)
-
-  teleport v
-  printVirt v
 
 
