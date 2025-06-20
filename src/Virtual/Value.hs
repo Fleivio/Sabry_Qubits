@@ -50,9 +50,11 @@ app ::
   -> Virt a nab ua
   -> Virt b nab ub
   -> IO ()
-app (Qop f) (Virt (QR ra) (Adaptor {dec = deca, cmp = _})) (Virt (QR rb) (Adaptor { dec = decb
-                                                                                  , cmp = _
-                                                                                  })) = do
+app (Qop f) 
+    (Virt (QR ra) 
+    (Adaptor {dec = deca, cmp = _})) 
+    (Virt (QR rb) (Adaptor { dec = decb, cmp = _})) 
+  = do
   fa <- readIORef ra
   let fb = normalize $ appQop gf fa
   writeIORef rb fb
